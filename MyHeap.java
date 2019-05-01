@@ -14,7 +14,7 @@ public class MyHeap {
 			return;
 		}
 		else if (size <= daughter) { //only child (lonely)
-			if (bigMax < data[son]) {
+			if (bigMan < data[son]) {
 				swap(data,index,son);
 			}
 		}
@@ -44,11 +44,17 @@ public class MyHeap {
 		}
 	}
 
-	public static void heapify(int[]) {
-
+	public static void heapify(int[]data) {
+		for (int i = data.length-1; i > 0; i--) {
+			pushDown(data,data.length-1,i);
+		}
 	}
 
-	public static void heapsort(int[]) {
-
+	public static void heapsort(int[]data) {
+		heapify(data);
+		for (int i = data.length-1; i > 0; i--) {
+			swap(data,0,i);
+			pushDown(data,i-1,0);
+		}
 	}
 }
