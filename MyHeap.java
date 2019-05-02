@@ -13,25 +13,19 @@ public class MyHeap {
 		int bigMan = data[index];
 		int son = index*2+1;
 		int daughter = index*2+2;
-		try { //to prevent errors and stop at the right moment
-			if (size == 2) { //base case
-				int child = index+1;
-				if (data[child] > bigMan) {
-					swap(data,index,child);
-				}
-			}
-			if (son < size) {
-				if (data[son] >= data[daughter] && data[son] > bigMan) {
-					swap(data,son,index);
-					pushDown(data,size,son);
-				}
-				else if (data[daughter] > bigMan) {
-					swap(data,daughter,index);
-					pushDown(data,size,daughter);
-				}
-			}	
+		if (daughter >= size && son < size && bigMan < data[son]){ //if only one child needs to swap
+			swap(data, son, index);
 		}
-		catch (IndexOutOfBoundsException e) {}
+		else if (daughter < size && (bigMan < data[son] || bigMan < data[daughter])){ //two children with possible swap
+			if (data[son] >= data[daughter]){
+				swap(data, index, son);
+				pushDown(data, size, son);
+			} 
+			else {
+				swap(data, index, daughter);
+				pushDown(data,size,daughter);
+			}
+		} 
 	}
 	
 
@@ -53,8 +47,8 @@ public class MyHeap {
 	public static void heapsort(int[]data) {
 		heapify(data);
 		for (int i = data.length-1; i > 0; i--) {
-			swap(data,0,i);
-			pushDown(data,i-1,0);
+			swap(data,i,0);
+			pushDown(data,i,0);
 		}
 	}
 }
